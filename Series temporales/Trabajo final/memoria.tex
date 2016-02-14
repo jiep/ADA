@@ -273,12 +273,83 @@ Utilizaremos este modelo para predecir los valores de empleo del año siguiente 
  	\end{tabular}
  \end{table}
 
+Según estas predicciones, el índice de empleo del 1994 se mantuvo constante, en torno al 88\%. 
+
 
 \clearpage
 
 \subsection{Venta de cigarros puros de una empresa tabacalera}
 
-La segunda serie temporal es el volumen de ventas mensual de puros de una empresa tabacalera. El período de la serie abarca desde enero de 1989 hasta diciembre de 1996.
+La segunda serie temporal es el volumen de ventas mensual de puros de una empresa tabacalera. El período de la serie abarca desde enero de 1989 hasta diciembre de 1996.\\
+
+Comenzamos representando la serie temporal (Figura~\ref{fig:empleo}).\\
+
+\begin{figure}[tbph!]
+	\centering
+	\includegraphics[width=0.8\linewidth]{imagenes/puros/puros.png}
+	\caption{Serie temporal puros}
+	\label{fig:puros}
+\end{figure} 
+
+Se puede ver una fuerte tendencia decreciente a lo largo de la serie temporal. Además, se observa una estacionalidad de los datos: la venta aumenta entre los meses de enero y septiembre, y desciende en los meses de octubre a diciembre.\\
+
+Nos aseguramos de que la presencia de tendencia y estacionalidad mirando el correlograma de la serie (Figura~\ref{fig:correlograma-puros}).\\
+
+\begin{figure}[tbph!]
+	\centering
+	\includegraphics[width=0.8\linewidth]{imagenes/puros/correlograma-puros.png}
+	\caption{Correlograma de la serie temporal puros}
+	\label{fig:correlograma-puros}
+\end{figure}
+
+Se observa el decaimiento tanto en la parte regular como en la parte estacional, es decir, en los retardos múltiplos de 12, por lo que necesitamos eliminar la tendencia y la estacionalidad para que nuestra serie sea estacionaria.\\
+
+Comenzamos eliminando la tendencia. Para ello, tomamos una diferencia regular de la serie, que llamaremos dpuros. La Figura~\ref{fig:puros-diferenciada} muestra nuestra nueva serie con una diferencia regular.\\
+
+\begin{figure}[tbph!]
+	\centering
+	\includegraphics[width=0.8\linewidth]{imagenes/puros/puros-diferenciada.png}
+	\caption{Serie temporal puros}
+	\label{fig:puros-diferenciada}
+\end{figure}
+
+Observamos que se ha eliminado la tendencia, pero no así la estacionalidad. Para asegurarnos observamos de nuevo el correlograma de esta nueva serie temporal (Figura~\ref{fig:correlograma-puros-diferenciada}).\\
+
+
+\begin{figure}[tbph!]
+	\centering
+	\includegraphics[width=0.8\linewidth]{imagenes/puros/correlograma-puros-diferenciada.png}
+	\caption{Correlograma de la serie temporal diferenciada dpuros}
+	\label{fig:correlograma-puros-diferenciada}
+\end{figure}
+
+En el correlograma se puede observar que se ha corregido la tendencia, pero no la estacionalidad en los retardos múltiplos de 12. Así que tomamos una diferencia estacional de 12 como retardo. A esta nueva variable la llamamos ddpuros12, que se muestra en la Figura~\ref{fig:puros-diferenciada-estacional12}.\\
+
+\begin{figure}[tbph!]
+	\centering
+	\includegraphics[width=0.8\linewidth]{imagenes/puros/puros-diferenciada-estacional12.png}
+	\caption{Serie temporal ddpuros12}
+	\label{fig:puros-diferenciada-estacional12}
+\end{figure}
+
+Se puede ver que esta nueva serie tiene tanto ausencia de tendencia como de estacionalidad. Para asegurarnos, vemos el correlograma de esta serie (Figura~\ref{fig:correlograma-puros-diferenciada-estacional12}).\\
+
+\begin{figure}[tbph!]
+	\centering
+	\includegraphics[width=0.8\linewidth]{imagenes/puros/correlograma-puros-diferenciada-estacional12.png}
+	\caption{Correlograma de la serie temporal ddpuros12}
+	\label{fig:correlograma-puros-diferenciada-estacional12}
+\end{figure}
+
+El correlograma no deja duda de que esta nueva serie es estacionaria.\\
+
+Por tanto, para convertir la serie en estacionaria hemos tenido que aplicar la siguiente transformación:
+
+\[ \text{ddpuros12} = (1-B)(1-B^{12}) \cdot puros \]
+
+Es decir, tenemos que $d=D=1$.\\
+
+Debemos establecer el modelo generador de la serie.
 
 \section{Código EViews}
 
