@@ -57,12 +57,60 @@
 \thispagestyle{empty}
 \newpage
 
+\listoffigures
+\thispagestyle{empty}
+\newpage
+
+\listoftables
+\thispagestyle{empty}
+\newpage
 
 \pagenumbering{arabic}
 \setcounter{page}{1}
 
 \section{Introducción}
 
+En este caso práctico utilizaremos la metodología Box-Jenkins para analizar dos series temporales. La primera es el índice de empleo de un determinado país, y la segunda es el volumen de ventas mensual de puros de una empresa tabacalera. En ambos casos, se trata de obtener un modelo que se ajuste lo máximo posible a la serie temporal.\\
+
+La metodología Box-Jenkins recoge los pasos necesarios para obtener el modelo más adecuado de serie temporal:
+
+\begin{enumerate}
+	\item Especificación inicial: consiste en determinar el orden de integración de la serie temporal y naturaleza de diferencias que se requerirán para convertir en estacionaria la serie temporal. En este paso se usa el análisis gráfico de la serie, además de los correlogramas simple y parcial de la serie. 
+	Una vez hecho lo anterior, habrá que decidir los órdenes de los polinomios autorregresivo y de medias móviles. De nuevo, se hará uso del correlograma simple y parcial de la serie. La Tabla~\ref*{tbl:modelos} recoge las principales características de la función de autocorrelación y de autocorrelación parcial de los principales modelos estacionarios. 
+	
+	\begin{table}[htbp!]
+		\centering
+		\caption{Principales características de la función de autocorrelación y de autocorrelación parcial de los principales modelos estacionarios}
+		\label{tbl:modelos}
+		\begin{tabular}{@{}ccc@{}}
+			\toprule
+			\textbf{Modelo} & \textbf{\begin{tabular}[c]{@{}c@{}}Función de \\ autocorrelación\end{tabular}}                            & \textbf{\begin{tabular}[c]{@{}c@{}}Función de \\ autocorrelación parcial\end{tabular}}                      \\ \midrule
+			AR(p)           & \begin{tabular}[c]{@{}c@{}}Decrecimiento rápido hacia cero, \\ sin llegar a anularse\end{tabular}         & \begin{tabular}[c]{@{}c@{}}$p$ primera autocorrelaciones distintas \\ de cero, y el resto cero\end{tabular} \\
+			MA(q)           & \begin{tabular}[c]{@{}c@{}}$q$ primeras autocorrelaciones \\ significativas, y el resto cero\end{tabular} & \begin{tabular}[c]{@{}c@{}}Decrecimiento rápido hacia cero,\\ sin llegar a anularse\end{tabular}            \\
+			ARMA(p,q)       & \begin{tabular}[c]{@{}c@{}}Decrecimiento rápido hacia cero, \\ sin llegar a anularse\end{tabular}           & \begin{tabular}[c]{@{}c@{}}Decrecimiento rápido hacia cero,\\ sin llegar a anularse\end{tabular}            \\ \bottomrule
+		\end{tabular}
+	\end{table}
+	
+	\item Estimación: en este paso, se procede a estimar los modelos propuestos, normalmente mediante máxima verosimilitud o mínimos cuadrados no lineales. 
+	
+	\item Chequeo o validación: en este paso, se validan los posibles modelos y se escoge el que parezca más adecuado para describir la serie temporal.
+	
+	\item Utilización del modelo: el modelo escogido se puede utilizar para predecir futuros valores de la serie.
+\end{enumerate}
+
+\section{Resolución de las series temporales}
+
+A continuación, aplicamos la metodología Box-Jenkins para obtener un modelo que se adecue a cada una de las series temporales planteadas. 
+
+\subsection{Índice de empleo de un determinado país}
+
+La primera serie temporal es el índice de empleo de un determinado país. La serie está corregida de estacionalidad y tiene frecuencia trimestral. El período muestral abarca desde el primer trimestre del año 1962 hasta el cuarto trimestre del año 1994.\\
+
+ 
+
+\subsection{Venta de cigarros puros de una empresa tabacalera}
+
+La segunda serie temporal es el volumen de ventas mensual de puros de una empresa tabacalera. El período de la serie abarca desde enero de 1989 hasta diciembre de 1996.
 
 \section{Conclusiones}
 
