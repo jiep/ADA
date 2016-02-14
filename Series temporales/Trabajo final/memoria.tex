@@ -106,13 +106,236 @@ A continuación, aplicamos la metodología Box-Jenkins para obtener un modelo qu
 
 La primera serie temporal es el índice de empleo de un determinado país. La serie está corregida de estacionalidad y tiene frecuencia trimestral. El período muestral abarca desde el primer trimestre del año 1962 hasta el cuarto trimestre del año 1994.\\
 
+Comenzamos representando la serie temporal (Figura~\ref{fig:empleo}).
+
+\begin{figure}[tbph!]
+\centering
+\includegraphics[width=0.8\linewidth]{imagenes/empleo/empleo.png}
+\caption{Serie temporal empleo}
+\label{fig:empleo}
+\end{figure}
+
+Se observa que podría haber tendencia en la serie original. Para verificarlo, usamos el correlograma de la serie que se puede ver en la Figura~\ref{fig:correlograma-empleo}.\\
  
+\begin{figure}[tbph!]
+	\centering
+	\includegraphics[width=0.7\linewidth]{imagenes/empleo/correlograma-empleo.png}
+	\caption{Correlograma de la serie temporal empleo}
+	\label{fig:correlograma-empleo}
+\end{figure}
+
+Como se observa un decrecimiento lento en la parte positiva del eje X, estamos ante una serie que presenta tendencia, por lo que estamos ante una serie no estacionaria. Tenemos que eliminar la tendencia, haciendo uso de las diferencias regulares de la serie original.\\
+
+Tomamos la primera diferenciación para convertir la serie en estacionaria, que llamamos dempleo. Representamos la nueva serie para comprobar que hemos eliminado la tendencia de la serie original.  \\
+
+\begin{figure}[tbph!]
+	\centering
+	\includegraphics[width=0.8\linewidth]{imagenes/empleo/empleo-diferenciada.png}
+	\caption{Serie transformada tomando una diferencia regular}
+	\label{fig:empleo-diferenciada}
+\end{figure}
+
+La nueva serie parece indicar que estamos ante una serie estacionaria, ya que hemos eliminado la tendencia tomando una diferencia regular, y la serie carecía de estacionalidad de acuerdo al enunciado. Esto se puede comprobar mirando el correlograma de esta nueva serie (Figura~\ref{fig:correlograma-empleo-diferenciada}).\\ 
+
+\begin{figure}[tbph!]
+	\centering
+	\includegraphics[width=0.7\linewidth]{imagenes/empleo/correlograma-empleo-diferenciada.png}
+	\caption{Correlograma de la serie temporal transformada dempleo}
+	\label{fig:correlograma-empleo-diferenciada}
+\end{figure}
+
+Así pues, tenemos que $d=1$ y $D=0$, y
+
+\[ \text{dempleo} = (1-B) \text{empleo}\]
+
+Es decir, dempleo es un modelo integrado de orden 1.\\
+
+Observando el correlograma de la Figura~\ref{fig:correlograma-empleo-diferenciada} podemos sugerir que la serie temporal puede venir dada por un modelo AR(1), ya que la función de autocorrelación decrece rápidamente hacia cero, sin llegar a anularse, y en la función de autocorrelación parcial, hay un valor no nulo positivo, y el resto es cero. También podría tratarse de un modelo MA(2), ya que en la función de autocorrelación hay dos valores no nulos positivos y el resto es cero, y en la función de autocorrelación parcial hay un decrecimiento rápido sin llegar a anularse. Así planteamos los siguientes modelos:
+
+\begin{enumerate}
+	\item ARIMA(1,1,0) \label{mod:1}
+	\item ARIMA(0,1,2) \label{mod:2}
+	\item ARIMA(1,1,2) \label{mod:3}
+\end{enumerate}
+
+Estimamos cada uno de los modelos propuestos. En primer lugar estimamos el modelo ARIMA(1,1,0). La salida de EViews de este modelo se muestra en la Figura~\ref{fig:modelo1-estadisticas}.\\
+
+
+\begin{figure}[tbph!]
+	\centering
+	\includegraphics[width=0.7\linewidth]{imagenes/empleo/modelo1-estadisticas.png}
+	\caption{Estimación del modelo ARIMA(1,1,0)}
+	\label{fig:modelo1-estadisticas}
+\end{figure}
+
+Se observa que todos los parámetros del modelo son significativos, por lo que lo consideraremos adecuado. Además, se obtiene un valor de $R^2$ ajustado de 0.214.\\
+
+Estimamos nuestro segundo modelo, es decir, el modelo ARIMA(0,1,2) usando EViews. La salida que produce este programa se puede ver en la Figura~\ref{fig:modelo2-estadisticas}.\\
+
+\begin{figure}[tbph!]
+	\centering
+	\includegraphics[width=0.7\linewidth]{imagenes/empleo/modelo2-estadisticas.png}
+	\caption{Estimación del modelo ARIMA(1,1,2)}
+	\label{fig:modelo2-estadisticas}
+\end{figure}
+
+Observando la salida de EViews, tenemos que todos los parámetros del modelo son significativos, por lo que consideraremos este modelo adecuado para representar la serie de tiempo del índice de empleo. Además, tiene tiene un coeficiente $R^2$ ajustado de 0.195.\\
+
+Por último, estimamos nuestro último modelo propuesto: el ARIMA(1,1,2). De nuevo, usamos EViews que nos devuelve la salida de la Figura~\ref{fig:modelo3-estadisticas}.\\
+
+\begin{figure}[tbph!]
+	\centering
+	\includegraphics[width=0.7\linewidth]{imagenes/empleo/modelo3-estadisticas.png}
+	\caption{Estimación del modelo ARIMA(0,1,2)}
+	\label{fig:modelo3-estadisticas}
+\end{figure}
+
+Observando la salida de este modelo, vemos que todos los parámetros no son significativos, por lo que desechamos este modelo ya que no parece adecuado para describir la serie temporal que estamos tratando.\\
+
+Sólo tenemos dos modelos que validar: el modelo ARIMA(1,1,0) y el ARIMA(0,1,2). La Tabla~\ref{tbl:empleo-estadisticas} muestra una comparativa entre la estimación de los dos modelos.\\
+
+\begin{table}[htbp!]
+	\centering
+	\caption{Análisis de la estimación de los modelos ARIMA(1,1,0) y ARIMA(0,1,2)}
+	\label{tbl:empleo-estadisticas}
+	\begin{tabular}{@{}ccc@{}}
+		\toprule
+		\textbf{}                                                       & \textbf{ARIMA(1,1,0)} & \textbf{ARIMA(0,1,2)} \\ \midrule
+		$R^2$                                                           & $0.214$               & $0.207$               \\
+		$R^2$ ajustado                                                  & $0.208$               & $0.195$               \\
+		\begin{tabular}[c]{@{}c@{}}Akaike Info\\ Criterion\end{tabular} & $3.631$               & $3.656$               \\
+		\begin{tabular}[c]{@{}c@{}}Schwarz\\ Criterion\end{tabular}     & $3.677$               & $3.723$               \\
+		\begin{tabular}[c]{@{}c@{}}Error de\\ regresión\end{tabular}    & $1.474$               & $1.487$               \\ \bottomrule
+	\end{tabular}
+\end{table} 
+
+El modelo ARIMA(1,1,0) tiene un menor error (1.474) que el modelo ARIMA(0,1,2) (1.487). Además tanto los estadísticos de Akaike como de Scharwz son menores en el modelo ARIMA(1,1,0) que en el modelo ARIMA(0,1,2). Lo anterior parece indicar que el modelo más adecuado es el ARIMA(1,1,0).\\
+
+Para confirmar nuestras sospechas, hacemos un análisis de los residuos de ambos modelos. \\
+
+Comenzamos con el modelo ARIMA(1,1,0). En la Figura~\ref*{fig:modelo1-residuos-correlograma} se puede ver el correlograma de los residuos del modelo.\\
+
+\begin{figure}[tbph!]
+	\centering
+	\includegraphics[width=0.7\linewidth]{imagenes/empleo/modelo1-residuos-correlograma.png}
+	\caption{Correlograma de los residuos del modelo ARIMA(1,1,0)}
+	\label{fig:modelo1-residuos-correlograma}
+\end{figure}
+
+Se puede observar que las autocorrelaciones de los residuos no son significativas y entran dentro de las bandas de confianza, lo que indica que no son distintas de cero. De la misma forma, el estadístico Q no muestra indicios de autocorrelación de los residuos, por lo que todo parece indicar que estamos ante ruido blanco. Para comprobarlo, representamos el gráfico de residuos, que se puede ver en la Figura~\ref{fig:modelo1-residuos}.\\
+
+\begin{figure}[tbph!]
+	\centering
+	\includegraphics[width=0.7\linewidth]{imagenes/empleo/modelo1-residuos.png}
+	\caption{Residuos del modelo ARIMA(1,1,0)}
+	\label{fig:modelo1-residuos}
+\end{figure}
+
+La mayoría de los residuos se encuentran dentro de las bandas de confianza, lo que apoya la teoría de autocorrelación. Todo parece confirmar que estamos ante ruido blanco.\\
+
+Notar la presencia de un outlier en el primer trimestre de 1987.\\
+
+Procedemos de forma similar para comprobar que los residuos del modelo son ruido blanco.\\
+
+Las Figuras~\ref{fig:modelo2-residuos-correlograma}~y~\ref{fig:modelo2-residuos} muestran la presencia de los residuos como ruido blanco.\\ 
+ 
+\begin{figure}[tbph!]
+	\centering
+	\includegraphics[width=0.7\linewidth]{imagenes/empleo/modelo2-residuos-correlograma.png}
+	\caption{Correlograma de los residuos del modelo ARIMA(0,1,2)}
+	\label{fig:modelo2-residuos-correlograma}
+\end{figure}
+
+\begin{figure}[tbph!]
+	\centering
+	\includegraphics[width=0.7\linewidth]{imagenes/empleo/modelo2-residuos.png}
+	\caption{Residuos del modelo ARIMA(0,1,2)}
+	\label{fig:modelo2-residuos}
+\end{figure}
+
+De todo lo anterior, se deduce que el modelo ARIMA(1,1,0) es superior al modelo ARIMA(0,1,2) ya que tiene mejor coeficiente $R^2$, menor error en la estimación, y menores valores en los estadísticos de Akaike y Schwarz.\\
+
+Así pues, el índice de empleo viene dado por el modelo ARIMA(1,1,0).\\
+
+Utilizaremos este modelo para predecir los valores de empleo del año siguiente (1994). Los datos para cada uno de los trimestres se pueden ver en la Tabla~\ref{tbl:empleo-predicciones}.\\
+
+ \begin{table}[htbp!]
+ 	\centering
+ 	\caption{Predicciones del índice de empleo para el año 1994}
+ 	\label{tbl:empleo-predicciones}
+ 	\begin{tabular}{@{}cc@{}}
+ 		\toprule
+ 		\textbf{Trimestre} & \textbf{Predicción} \\ \midrule
+ 		1/1994             & $88.34407$          \\
+ 		2/1994             & $88.33593$          \\
+ 		3/1994             & $88.33219$          \\
+ 		4/1994             & $88.33048$          \\ \bottomrule
+ 	\end{tabular}
+ \end{table}
+
+
+\clearpage
 
 \subsection{Venta de cigarros puros de una empresa tabacalera}
 
 La segunda serie temporal es el volumen de ventas mensual de puros de una empresa tabacalera. El período de la serie abarca desde enero de 1989 hasta diciembre de 1996.
 
+\section{Código EViews}
+
+\subsection{Índice de empleo}
+
+\begin{verbatim}
+empleo.sheet
+{%graph}.line
+empleo.correl(16)
+series d
+series dempleo = empleo - empleo(-1)
+dempleo.sheet
+{%graph}.line
+dempleo.correl
+{%equation}.ls(optmethod=opg) d(empleo,1) ar(1)
+{%equation}.resids(g)
+{%equation}.correl
+{%equation}.ls(optmethod=opg) d(empleo,1) ma(1) ma(2)
+{%equation}.resids(g)
+{%equation}.results
+{%equation}.correl
+{%equation}.resids(g)
+dempleo.hist
+{%graph}.line
+{%equation}.ls(optmethod=opg) d(empleo,1) ar(1)
+smpl 1994q1 1994q4
+{%equation}.forecast(e, g) empleof
+smpl 1962q1 1993q4
+{%equation}.forecast 
+{%equation}.results
+empleof.sheet
+{%graph}.line
+empleo.correl(16)
+empleo.sheet
+empleof.sheet
+\end{verbatim}
+
+\subsection{Venta de puros}
+
+
+\begin{verbatim}
+puros.sheet
+{%graph}.line
+puros.correl
+series dpuros = puros - puros(-1)
+dpuros.sheet
+{%graph}.line
+dpuros.correl
+series dd12puros = dpuros(puros,1,12)
+series dd12puros = d(puros,1,12)
+dd12puros.sheet
+{%graph}.line
+dd12puros.correl
+\end{verbatim}
+
+
 \section{Conclusiones}
 
 
-\end{document}
+\end{document} 
