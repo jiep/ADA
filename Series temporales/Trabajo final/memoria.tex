@@ -95,7 +95,7 @@ La metodología Box-Jenkins recoge los pasos necesarios para obtener el modelo m
 	
 	\item Chequeo o validación: en este paso, se validan los posibles modelos y se escoge el que parezca más adecuado para describir la serie temporal.
 	
-	\item Utilización del modelo: el modelo escogido se puede utilizar para predecir futuros valores de la serie.
+	\item Utilización del modelo: el modelo escogido se puede utilizar para predecir futuros valores de la serie, entre otras opciones.
 \end{enumerate}
 
 \section{Resolución de las series temporales}
@@ -349,10 +349,148 @@ Por tanto, para convertir la serie en estacionaria hemos tenido que aplicar la s
 
 Es decir, tenemos que $d=D=1$.\\
 
-Debemos establecer el modelo generador de la serie.
+Debemos establecer el modelo generador de la serie.\\
+
+El correlograma de la Figura~\ref{fig:correlograma-puros-diferenciada-estacional12} sugiere que el modelo puede estar generado por un MA(1) estacional ya que la función de autocorrelación presenta un valor no nulo en parte negativa del eje X en los múltiplos de 12 retardos, y la función de autocorrelación parcial muestra un decrecimiento lento en la parte negativa del eje X.\\
+
+En la parte regular, el modelo puede estar dado por un AR(2), ya que la función de autocorrelación muestra un decrecimiento lento a lo largo de todos los retardos, y la función de autocorrelación parcial, dos valores no nulos negativos en la parte del eje X. También puede ser generado por un MA(1) ya que la función de autocorrelación presenta un valor no nulo negativo en el eje X, y la función de autocorrelación parcial presenta un decrecimiento lento en todos los retardos.\\
+
+Así, los modelos candidatos a generar la serie son:
+
+\begin{enumerate}
+	\item ARIMA$(0,1,1)\times(0,1,1)_{12}$
+	\item ARIMA$(2,1,0)\times(0,1,1)_{12}$
+\end{enumerate}
+
+Necesitamos estimar ambos modelos y validarlos.\\
+
+Comenzamos con el modelo ARIMA$(0,1,1)\times(0,1,1)_{12}$. En la Figura~\ref{fig:modelo1-puros} se muestra el resultado de la estimación de este modelo en EViews.\\
+
+\begin{figure}[tbph!]
+	\centering
+	\includegraphics[width=0.8\linewidth]{imagenes/puros/modelo1.png}
+	\caption{Estimación del modelo ARIMA$(0,1,1)\times(0,1,1)_{12}$}
+	\label{fig:modelo1-puros}
+\end{figure}
+
+Se puede observar que todos los términos son significativos, y que tiene un coeficiente $R^2$ ajustado de 0.620.\\
+
+Si ahora estimamos el modelo 2, es decir, el modelo ARIMA$(2,1,0)\times(0,1,1)_{12}$, se tiene el resultado de la Figura~\ref{fig:modelo2-puros}.\\
+
+\begin{figure}[tbph!]
+	\centering
+	\includegraphics[width=0.8\linewidth]{imagenes/puros/modelo2.png}
+	\caption{Estimación del modelo ARIMA$(2,1,0)\times(0,1,1)_{12}$}
+	\label{fig:modelo2-puros}
+\end{figure}
+
+Se puede observar que todos los coeficientes de este modelo son significativos, y que tiene un coeficiente $R^2$ ajustado de 0.623.\\
+
+A continuación, validaremos el modelo comparando tanto los resultados de la estimación como los residuos de ambos modelos. En la Tabla~\ref{tbl:puros-estadisticas} se puede ver una comparativa entre ambos modelos.\\
+
+\begin{table}[htbp!]
+	\centering
+	\caption{Análisis de la estimación de los modelos ARIMA$(0,1,1)\times(0,1,1)_{12}$
+	y ARIMA$(2,1,0)\times(0,1,1)_{12}$}
+	\label{tbl:puros-estadisticas}
+	\begin{tabular}{@{}ccc@{}}
+		\toprule
+		\textbf{}                                                       & \textbf{ ARIMA$(2,1,0)\times(0,1,1)_{12}$} & \textbf{ARIMA$(0,1,1)\times(0,1,1)_{12}$} \\ \midrule
+		$R^2$                                                           & $0.620$               & $0.637$               \\
+		$R^2$ ajustado                                                  & $0.611$               & $0.623$               \\
+		\begin{tabular}[c]{@{}c@{}}Akaike Info\\ Criterion\end{tabular} & $9.949$               & $9.952$               \\
+		\begin{tabular}[c]{@{}c@{}}Schwarz\\ Criterion\end{tabular}     & $10.036$               & $10.068$               \\
+		\begin{tabular}[c]{@{}c@{}}Error de\\ regresión\end{tabular}    & $32.938$               & $32.421$               \\ \bottomrule
+	\end{tabular}
+\end{table} 
+
+Se puede observar que el valor de los coeficientes $R^2$ y $R^2$ ajustado son mayores en el modelo ARIMA$(2,1,0)\times(0,1,1)_{12}$ que en el modelo ARIMA$(2,1,0)\times(0,1,1)_{12}$. Además, también es menor tanto el Akaike Info Criterion como el Schwarz Criterion en el modelo ARIMA$(2,1,0)\times(0,1,1)_{12}$. Sin embargo, el modelo ARIMA$(2,1,0)\times(0,1,1)_{12}$ tiene un menor error de regresión que el modelo ARIMA$(0,1,1)\times(0,1,1)_{12}$.\\
+
+A continuación, pasamos a analizar los residuos de los modelos. Comenzamos con el modelo ARIMA$(0,1,1)\times(0,1,1)_{12}$. Las Figuras~\ref{fig:modelo1-puros-residuos}~y~\ref{fig:modelo1-puros-residuos-correlograma} muestra los residuos y el correlograma de estos. Se puede observar que la mayoría caen dentro de las bandas de confianza, por lo que es de suponer que se trata de ruido blanco. El correlograma parece también contrastarlo.\\
+
+\begin{figure}[tbph!]
+	\centering
+	\includegraphics[width=0.8\linewidth]{imagenes/puros/modelo1-residuos.png}
+	\caption{Residuos del modelo ARIMA$(0,1,1)\times(0,1,1)_{12}$}
+	\label{fig:modelo1-puros-residuos}
+\end{figure}
+
+\begin{figure}[tbph!]
+	\centering
+	\includegraphics[width=0.8\linewidth]{imagenes/puros/modelo1-residuos-correlograma.png}
+	\caption{Correlograma de los residuos del modelo ARIMA$(0,1,1)\times(0,1,1)_{12}$}
+	\label{fig:modelo1-puros-residuos-correlograma}
+\end{figure}
+
+De forma similar, comprobamos que los residuos del modelo ARIMA$(2,1,0)\times(0,1,1)_{12}$ (Figuras~\ref{fig:modelo2-puros-residuos}~y~\ref{fig:modelo2-puros-residuos-correlograma}). 
+
+\begin{figure}[tbph!]
+	\centering
+	\includegraphics[width=0.8\linewidth]{imagenes/puros/modelo2-residuos.png}
+	\caption{Residuos del modelo ARIMA$(2,1,0)\times(0,1,1)_{12}$}
+	\label{fig:modelo2-puros-residuos}
+\end{figure}
+
+\begin{figure}[tbph!]
+	\centering
+	\includegraphics[width=0.8\linewidth]{imagenes/puros/modelo2-residuos-correlograma.png}
+	\caption{Correlograma de los residuos del modelo ARIMA$(2,1,0)\times(0,1,1)_{12}$}
+	\label{fig:modelo2-puros-residuos-correlograma}
+\end{figure}
+
+A tenor de los resultados, estamos ante dos modelos muy parecidos, pero nos decantaremos por el modelo ARIMA$(0,1,1)\times(0,1,1)_{12}$, ya que es el que menor valor tiene en los Akaike Info Criterion y Schwarz Criterion, aunque tiene un mayor error de regresión (cercano a 0.5).\\
+
+Por tanto, la venta de puros viene dada por el modelo ARIMA$(2,1,0)\times(0,1,1)_{12}$.\\
+
+Usaremos este modelo para predecir las ventas de puros en el año 1997. Estos datos se pueden ver en la Tabla~\ref{tbl:puros-predicciones}.\\
+
+\begin{table}[htbp!]
+	\centering
+	\caption{Predicciones de ventas de puros para el año 1997}
+	\label{tbl:puros-predicciones}
+	\begin{tabular}{@{}cc@{}}
+		\toprule
+		\textbf{Mes} & \textbf{Predicción} \\ \midrule
+		Enero             & $278.693$          \\
+		Febrero           & $252.391$          \\
+		Marzo             & $328.391$          \\
+		Abril             & $301.391$          \\
+		Mayo              & $306.391$          \\
+		Junio             & $341.391$          \\
+		Julio             & $279.391$          \\
+		Agosto            & $320.391$          \\
+		Septiembre        & $318.391$          \\
+		Octubre           & $352.391$          \\
+		Noviembre         & $304.391$          \\
+		Diciembre         & $228.391$          \\ \bottomrule
+	\end{tabular}
+\end{table}
+
+De forma más gráfica, se puede ver en la Figura~\ref{fig:puros-predicciones-1997}. Si comparamos la serie temporal inicial junto con las predicciones, observamos la clara tendencia descendente que se mantiene en el año 1997 (Figura~\ref{fig:puros-predicciones}).\\
+
+\begin{figure}[tbph!]
+	\centering
+	\includegraphics[width=0.8\linewidth]{imagenes/puros/puros-predicciones-1997.png}
+	\caption{Predicciones (e intervalo de confianza) de ventas de puros para el año 1997}
+	\label{fig:puros-predicciones-1997}
+\end{figure}
+
+\begin{figure}[tbph!]
+	\centering
+	\includegraphics[width=0.8\linewidth]{imagenes/puros/puros-predicciones.png}
+	\caption{Serie temporal de puros junto a las predicciones para el año 1997}
+	\label{fig:puros-predicciones}
+\end{figure}
+
+
+\clearpage
+\section{Conclusiones}
+En este trabajo hemos visto cómo aplicar la metodología Box-Jenkins para modelizar distintas series temporales, que trataban distintos temas socioeconómicos: la primera serie era sobre el índice de paro de un país, y la segunda, la venta de puros. En ambos casos, hemos utilizado el software EViews, que gracias a su potencia y sus modelos se series de temporales ya implementados, ha permitido ahorrar mucho tiempo estimando, analizando y prediciendo nuestros modelos.
 
 \clearpage
 \section{Código EViews}
+
+A continuación se muestra el código EViews utilizado para resolver cada una de las series temporales planteadas.
 
 \subsection{Índice de empleo}
 
@@ -404,10 +542,23 @@ series dd12puros = d(puros,1,12)
 dd12puros.sheet
 {%graph}.line
 dd12puros.correl
+{%equation}.ls(optmethod=opg) dd12puros ma(1) sma(12)
+{%equation}.ls(optmethod=opg) d(puros,1,12) ma(1) sma(12)
+{%equation}.correl
+{%equation}.resids(g)
+{%equation}.correl
+{%equation}.ls(optmethod=opg) d(puros,1,12) ar(1) ar(2) ma(12)
+{%equation}.resids(g)
+{%equation}.correl
+{%equation}.ls(optmethod=opg) d(puros,1,12) ma(1) sma(1)
+dd12puros.sheet
+puros.sheet
+pagestruct(end=1997M12)
+smpl 1997m01 1997m12
+{%equation}.forecast(e, g) purosf
+smpl 1989m01 1996m12
+purosf.sheet
+{%graph}.line
 \end{verbatim}
-
-
-\section{Conclusiones}
-
 
 \end{document} 
