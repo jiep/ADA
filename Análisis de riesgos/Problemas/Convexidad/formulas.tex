@@ -1,0 +1,24 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\begin{document}
+	\[ P = \sum_{i=1}^{n} \dfrac{\text{Flujo\_nominal}_i}{(1+\text{TIR})^\text{Plazo(años)}} \]
+	
+	\[ \text{Flujo\_actual} = \dfrac{\text{Flujo\_nominal}_i}{(1+\text{TIR})^\text{Plazo(años)}} \]
+	
+	\[ D = \dfrac{1}{P} \sum_{i=1}^{n} \dfrac{\text{Flujo\_actual}_i}{(1+\text{TIR})^\text{Plazo(años)}} \text{Plazo(años)} \]
+	
+	\[ D_M = \dfrac{D}{1 + \text{TIR}} \]
+	
+	\[ S_A = D_M \dfrac{P}{100} \]
+	
+	\[ CA = \left(  \dfrac{1}{100} \right)^2 \sum_{i=1}^{n} \dfrac{\text{Flujo\_actual}_i \text{Plazo(años)} (\text{Plazo(años)} + 1)}{(1+\text{TIR})^{\text{Plazo(años)}+2}} \]
+	
+	
+	\[ CM = 100^2 \dfrac{CA}{P} \]
+	
+	\[ CCC = \dfrac{1}{2} CA \]
+\end{document}
