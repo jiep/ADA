@@ -153,9 +153,15 @@ Es decir, dempleo es un modelo integrado de orden 1.\\
 Observando el correlograma de la Figura~\ref{fig:correlograma-empleo-diferenciada} podemos sugerir que la serie temporal puede venir dada por un modelo AR(1), ya que la función de autocorrelación decrece rápidamente hacia cero, sin llegar a anularse, y en la función de autocorrelación parcial, hay un valor no nulo positivo, y el resto es cero. También podría tratarse de un modelo MA(2), ya que en la función de autocorrelación hay dos valores no nulos positivos y el resto es cero, y en la función de autocorrelación parcial hay un decrecimiento rápido sin llegar a anularse. Así planteamos los siguientes modelos:
 
 \begin{enumerate}
-	\item ARIMA(1,1,0) \label{mod:1}
-	\item ARIMA(0,1,2) \label{mod:2}
-	\item ARIMA(1,1,2) \label{mod:3}
+	\item ARIMA(1,1,0) \label{mod:1}, que escrito en forma de ecuación es
+	
+	\[ (1-\theta_1 B) (1-B) \text{empleo} = a_t \] 
+	\item ARIMA(0,1,2) \label{mod:2}, que escrito en forma de ecuación es
+	
+	\[ (1-\theta_1 B) (1-B) \text{empleo} = (1-\theta_1 B - \theta_2 B^2)a_t \] 
+	\item ARIMA(1,1,2) \label{mod:3}, que escrito en forma de ecuación es
+	
+	\[ (1-B) \text{empleo} = (1-\theta_1 B - \theta_2 B^2) a_t \] 
 \end{enumerate}
 
 Estimamos cada uno de los modelos propuestos. En primer lugar estimamos el modelo ARIMA(1,1,0). La salida de EViews de este modelo se muestra en la Figura~\ref{fig:modelo1-estadisticas}.\\
@@ -231,7 +237,7 @@ Se puede observar que las autocorrelaciones de los residuos no son significativa
 	\label{fig:modelo1-residuos}
 \end{figure}
 
-La mayoría de los residuos se encuentran dentro de las bandas de confianza, lo que apoya la teoría de autocorrelación. Todo parece confirmar que estamos ante ruido blanco.\\
+La mayoría de los residuos se encuentran dentro de las bandas de confianza, lo que apoya la teoría de autocorrelación. Todo parece confirmar que los residuos se comportan como ruido blanco, es decir, tienen media 0 y varianza constante.\\
 
 Notar la presencia de un outlier en el primer trimestre de 1987.\\
 
@@ -358,8 +364,12 @@ En la parte regular, el modelo puede estar dado por un AR(2), ya que la función
 Así, los modelos candidatos a generar la serie son:
 
 \begin{enumerate}
-	\item ARIMA$(0,1,1)\times(0,1,1)_{12}$
-	\item ARIMA$(2,1,0)\times(0,1,1)_{12}$
+	\item ARIMA$(0,1,1)\times(0,1,1)_{12}$, que escrito en forma de ecuación es
+	
+	\[ (1-B) (1-B^{12}) \text{puros} = (1-\theta_1 B)(1-\Theta_{1}B^{12}) a_t \] 
+	\item ARIMA$(2,1,0)\times(0,1,1)_{12}$, que escrito en forma de ecuación es
+	
+	\[ (1-\phi_1 B - \phi_2 B^2)(1-B) (1-B^{12}) \text{puros} = (1-\theta_{1}B^{12}) a_t \] 
 \end{enumerate}
 
 Necesitamos estimar ambos modelos y validarlos.\\
@@ -406,7 +416,7 @@ A continuación, validaremos el modelo comparando tanto los resultados de la est
 
 Se puede observar que el valor de los coeficientes $R^2$ y $R^2$ ajustado son mayores en el modelo ARIMA$(2,1,0)\times(0,1,1)_{12}$ que en el modelo ARIMA$(2,1,0)\times(0,1,1)_{12}$. Además, también es menor tanto el Akaike Info Criterion como el Schwarz Criterion en el modelo ARIMA$(2,1,0)\times(0,1,1)_{12}$. Sin embargo, el modelo ARIMA$(2,1,0)\times(0,1,1)_{12}$ tiene un menor error de regresión que el modelo ARIMA$(0,1,1)\times(0,1,1)_{12}$.\\
 
-A continuación, pasamos a analizar los residuos de los modelos. Comenzamos con el modelo ARIMA$(0,1,1)\times(0,1,1)_{12}$. Las Figuras~\ref{fig:modelo1-puros-residuos}~y~\ref{fig:modelo1-puros-residuos-correlograma} muestra los residuos y el correlograma de estos. Se puede observar que la mayoría caen dentro de las bandas de confianza, por lo que es de suponer que se trata de ruido blanco. El correlograma parece también contrastarlo.\\
+A continuación, pasamos a analizar los residuos de los modelos. Comenzamos con el modelo ARIMA$(0,1,1)\times(0,1,1)_{12}$. Las Figuras~\ref{fig:modelo1-puros-residuos}~y~\ref{fig:modelo1-puros-residuos-correlograma} muestra los residuos y el correlograma de estos. Se puede observar que la mayoría caen dentro de las bandas de confianza, por lo que es de suponer que los residuos se comportan como ruido blanco. El correlograma parece también contrastarlo.\\
 
 \begin{figure}[tbph!]
 	\centering
@@ -485,7 +495,7 @@ De forma más gráfica, se puede ver en la Figura~\ref{fig:puros-predicciones-19
 
 \clearpage
 \section{Conclusiones}
-En este trabajo hemos visto cómo aplicar la metodología Box-Jenkins para modelizar distintas series temporales, que trataban distintos temas socioeconómicos: la primera serie era sobre el índice de paro de un país, y la segunda, la venta de puros. En ambos casos, hemos utilizado el software EViews, que gracias a su potencia y sus modelos se series de temporales ya implementados, ha permitido ahorrar mucho tiempo estimando, analizando y prediciendo nuestros modelos.
+En este trabajo hemos visto cómo aplicar la metodología Box-Jenkins para modelizar distintas series temporales, que trataban distintos temas socioeconómicos: la primera serie era sobre el índice de paro de un país, y la segunda, la venta de puros. En ambos casos, hemos utilizado el software EViews, que gracias a su potencia y sus modelos de series temporales ya implementados, ha permitido ahorrar mucho tiempo estimando, analizando y prediciendo nuestros modelos propuestos.
 
 \clearpage
 \section{Código EViews}
